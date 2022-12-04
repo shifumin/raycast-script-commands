@@ -3,16 +3,16 @@
 
 # Required parameters:
 # @raycast.schemaVersion 1
-# @raycast.title Notion Inbox
+# @raycast.title Notion Inbox DB
 # @raycast.mode silent
 
 # Optional parameters:
 # @raycast.icon 🤖
 # @raycast.argument1 { "type": "text", "placeholder": "text" }
-# @raycast.packageName Notion Inbox
+# @raycast.packageName Notion Inbox DB
 
 # Documentation:
-# @raycast.description Notion Inbox
+# @raycast.description Notion Inbox DB
 # @raycast.author shifumin
 # @raycast.authorURL https://github.com/shifumin
 
