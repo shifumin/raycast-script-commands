@@ -96,6 +96,10 @@ Metrics/ModuleLength:
   Exclude:
     - 'spec/**/*.rb'
 
+# Avoid methods longer than 10 lines of code.
+Metrics/MethodLength:
+  Max: 30
+
 Naming/InclusiveLanguage:
   Enabled: true
   CheckStrings: true
