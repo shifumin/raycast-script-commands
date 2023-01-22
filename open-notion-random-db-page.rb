@@ -1,0 +1,55 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Required parameters:
+# @raycast.schemaVersion 1
+# @raycast.title Open Notion Random DBページ
+# @raycast.mode silent
+
+# Optional parameters:
+# @raycast.icon 🤖
+# @raycast.packageName Notion
+
+# Documentation:
+# @raycast.description Open Notion Random DBページ
+# @raycast.author shifumin
+# @raycast.authorURL https://github.com/shifumin
+
+require 'json'
+require 'net/http'
+require 'uri'
+
+NOTION_VERSION = '2022-06-28'
+NOTION_TOKEN = 'YOUR_NOTION_TOKEN'
+DATABASE_ID = 'YOUR_DATABASE_ID'
+
+def body
+  {
+    filter: {
+      property: 'tag',
+      relation: {
+        contains: 'your_tag'
+      }
+    }
+  }
+end
+
+def open_notion_random_db_page
+  uri = URI.parse("https://api.notion.com/v1/databases/#{DATABASE_ID}/query")
+  request = Net::HTTP::Post.new(uri)
+  request.content_type = 'application/json'
+  request['Authorization'] = "Bearer #{NOTION_TOKEN}"
+  request['Notion-Version'] = NOTION_VERSION
+
+  request.body = JSON.dump(body)
+  response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+    http.request(request)
+  end
+
+  results = JSON.parse(response.body)['results']
+  url = results.sample['url'].gsub('https://', 'notion://')
+
+ `open #{url}`
+end
+
+open_notion_random_db_page
