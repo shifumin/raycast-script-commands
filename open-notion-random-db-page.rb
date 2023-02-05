@@ -22,6 +22,7 @@ require 'uri'
 NOTION_VERSION = '2022-06-28'
 NOTION_TOKEN = 'YOUR_NOTION_TOKEN'
 DATABASE_ID = 'YOUR_DATABASE_ID'
+URI_STR = "https://api.notion.com/v1/databases/#{DATABASE_ID}/query"
 
 def body
   {
@@ -30,12 +31,18 @@ def body
       relation: {
         contains: 'your_tag'
       }
-    }
+    },
+    sorts: [
+      {
+        property: 'updated_at_property',
+        direction: 'descending'
+      }
+    ]
   }
 end
 
 def open_notion_random_db_page
-  uri = URI.parse("https://api.notion.com/v1/databases/#{DATABASE_ID}/query")
+  uri = URI.parse(URI_STR)
   request = Net::HTTP::Post.new(uri)
   request.content_type = 'application/json'
   request['Authorization'] = "Bearer #{NOTION_TOKEN}"
@@ -49,7 +56,7 @@ def open_notion_random_db_page
   results = JSON.parse(response.body)['results']
   url = results.sample['url'].gsub('https://', 'notion://')
 
- `open #{url}`
+  `open #{url}`
 end
 
 open_notion_random_db_page
