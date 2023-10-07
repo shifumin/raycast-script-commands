@@ -4,7 +4,7 @@
 require:
   - rubocop/cop/internal_affairs
   - rubocop-performance
-  - rubocop-rspec
+  # - rubocop-rspec
   # - rubocop-rake
 
 AllCops:
@@ -15,7 +15,7 @@ AllCops:
     - 'tmp/**/*'
     - '.git/**/*'
     - 'bin/*'
-  TargetRubyVersion: 2.6
+  TargetRubyVersion: 3.2
   SuggestExtensions: false
 
 Naming/PredicateName:
@@ -80,6 +80,11 @@ Lint/UselessAccessModifier:
     - 'def_matcher'
     - 'def_node_matcher'
 
+Lint/EmptyFile:
+  Exclude:
+    # This file is intentionally empty to catch rubocop cops failing on empty files.
+    - spec/rubocop/intentionally_empty_file.rb
+
 Metrics/BlockLength:
   Exclude:
     - 'Rakefile'
@@ -96,14 +101,13 @@ Metrics/ModuleLength:
   Exclude:
     - 'spec/**/*.rb'
 
-# Avoid methods longer than 10 lines of code.
-Metrics/MethodLength:
-  Max: 30
-
 Naming/InclusiveLanguage:
   Enabled: true
   CheckStrings: true
   FlaggedTerms:
+    ' a offense':
+      Suggestions:
+        - an offense
     auto-correct:
       Suggestions:
         - autocorrect
@@ -116,6 +120,9 @@ Naming/InclusiveLanguage:
     offence:
       Suggestions:
         - offense
+    'does not registers':
+      Suggestions:
+        - does not register
   Exclude:
     - lib/rubocop/cop/naming/inclusive_language.rb
     - lib/rubocop/cop/mixin/auto_corrector.rb
@@ -132,13 +139,18 @@ RSpec:
       - expect_no_offenses
       - expect_offense
 
-RSpec/FilePath:
-  Exclude:
-    - spec/rubocop/cop/internal_affairs/redundant_let_rubocop_config_new_spec.rb
-    - spec/rubocop/formatter/junit_formatter_spec.rb
-
 RSpec/PredicateMatcher:
   EnforcedStyle: explicit
+
+RSpec/FilePath:
+  Enabled: false
+
+RSpec/SpecFilePathFormat:
+  CustomTransform:
+    JUnitFormatter: junit_formatter
+    RedundantLetRuboCopConfigNew: redundant_let_rubocop_config_new
+  Exclude:
+    - spec/rubocop/cop/mixin/enforce_superclass_spec.rb
 
 RSpec/MessageSpies:
   EnforcedStyle: receive
@@ -187,4 +199,7 @@ InternalAffairs/NumblockHandler:
     - 'lib/rubocop/cop/internal_affairs/*.rb'
 
 Gemspec/DependencyVersion:
+  Enabled: true
+
+Style/RequireOrder:
   Enabled: true
