@@ -8,7 +8,7 @@
 # Optional parameters:
 # @raycast.icon 🤖
 # @raycast.argument1 { "type": "text", "placeholder": "text" }
-# @raycast.packageName Notion DB読書引用メモ (タイトル)
+# @raycast.packageName Notion
 
 # Documentation:
 # @raycast.description Notion DB読書引用メモ (タイトル)
