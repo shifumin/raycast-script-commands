@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 # Required parameters:
 # @raycast.schemaVersion 1
@@ -15,48 +16,48 @@
 # @raycast.author shifumin
 # @raycast.authorURL https://github.com/shifumin
 
-require 'json'
-require 'net/http'
-require 'uri'
+require "json"
+require "net/http"
+require "uri"
 
-NOTION_VERSION = '2022-06-28'
-NOTION_TOKEN = 'YOUR NOTION TOKEN'
-DATABASE_ID = 'YOUR NOTION DATABESE ID' # 読書引用メモを記録するデータベースのID
-BOOK_TITLE = 'BOOK TITLE'
-AUTHOR = 'AUTHOR NAME'
+NOTION_VERSION = "2022-06-28"
+NOTION_TOKEN = "YOUR NOTION TOKEN"
+DATABASE_ID = "YOUR NOTION DATABESE ID" # 読書引用メモを記録するデータベースのID
+BOOK_TITLE = "BOOK TITLE"
+AUTHOR = "AUTHOR NAME"
 
 def send_notion_db(content)
-  uri = URI.parse('https://api.notion.com/v1/pages')
+  uri = URI.parse("https://api.notion.com/v1/pages")
   request = Net::HTTP::Post.new(uri)
-  request.content_type = 'application/json'
-  request['Authorization'] = "Bearer #{NOTION_TOKEN}"
-  request['Notion-Version'] = NOTION_VERSION
+  request.content_type = "application/json"
+  request["Authorization"] = "Bearer #{NOTION_TOKEN}"
+  request["Notion-Version"] = NOTION_VERSION
 
   obj = {
     parent: {
-      type: 'database_id',
+      type: "database_id",
       database_id: DATABASE_ID
     },
     properties: {
-      '📙  Book Title': {
+      "📙  Book Title": {
         select: {
-          name: BOOK_TITLE,
-        },
+          name: BOOK_TITLE
+        }
       },
-      '✍🏼  Author': {
+      "✍🏼  Author": {
         select: {
-          name: AUTHOR,
-        },
+          name: AUTHOR
+        }
       },
-      '📝  Highlight': {
+      "📝  Highlight": {
         title: [
           {
             text: {
-              content: content.dup.force_encoding('UTF-8')
+              content: content.dup.force_encoding("UTF-8")
             }
           }
         ]
-      },
+      }
     }
   }
 

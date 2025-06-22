@@ -16,33 +16,33 @@
 # @raycast.author shifumin
 # @raycast.authorURL https://github.com/shifumin
 
-require 'json'
-require 'net/http'
-require 'uri'
+require "json"
+require "net/http"
+require "uri"
 
-NOTION_VERSION = '2022-06-28'
-NOTION_TOKEN = 'YOUR_NOTION_TOKEN'
-DATABASE_ID = 'YOUR_DATABASE_ID'
+NOTION_VERSION = "2022-06-28"
+NOTION_TOKEN = "YOUR_NOTION_TOKEN"
+DATABASE_ID = "YOUR_DATABASE_ID"
 
 def send_notion_db(title)
-  uri = URI.parse('https://api.notion.com/v1/pages')
+  uri = URI.parse("https://api.notion.com/v1/pages")
   request = Net::HTTP::Post.new(uri)
-  request.content_type = 'application/json'
-  request['Authorization'] = "Bearer #{NOTION_TOKEN}"
-  request['Notion-Version'] = NOTION_VERSION
+  request.content_type = "application/json"
+  request["Authorization"] = "Bearer #{NOTION_TOKEN}"
+  request["Notion-Version"] = NOTION_VERSION
 
   obj = {
     parent: {
-      type: 'database_id',
+      type: "database_id",
       database_id: DATABASE_ID
     },
     properties: {
       Name: {
         title: [
           {
-            type: 'text',
+            type: "text",
             text: {
-              content: title.dup.force_encoding('UTF-8')
+              content: title.dup.force_encoding("UTF-8")
             }
           }
         ]

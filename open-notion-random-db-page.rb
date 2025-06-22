@@ -15,27 +15,27 @@
 # @raycast.author shifumin
 # @raycast.authorURL https://github.com/shifumin
 
-require 'json'
-require 'net/http'
-require 'uri'
+require "json"
+require "net/http"
+require "uri"
 
-NOTION_VERSION = '2022-06-28'
-NOTION_TOKEN = 'YOUR_NOTION_TOKEN'
-DATABASE_ID = 'YOUR_DATABASE_ID'
-URI_STR = "https://api.notion.com/v1/databases/#{DATABASE_ID}/query"
+NOTION_VERSION = "2022-06-28"
+NOTION_TOKEN = "YOUR_NOTION_TOKEN"
+DATABASE_ID = "YOUR_DATABASE_ID"
+URI_STR = "https://api.notion.com/v1/databases/#{DATABASE_ID}/query".freeze
 
 def body
   {
     filter: {
-      property: 'tag',
+      property: "tag",
       relation: {
-        contains: 'your_tag'
+        contains: "your_tag"
       }
     },
     sorts: [
       {
-        property: 'updated_at_property',
-        direction: 'descending'
+        property: "updated_at_property",
+        direction: "descending"
       }
     ]
   }
@@ -44,17 +44,17 @@ end
 def open_notion_random_db_page
   uri = URI.parse(URI_STR)
   request = Net::HTTP::Post.new(uri)
-  request.content_type = 'application/json'
-  request['Authorization'] = "Bearer #{NOTION_TOKEN}"
-  request['Notion-Version'] = NOTION_VERSION
+  request.content_type = "application/json"
+  request["Authorization"] = "Bearer #{NOTION_TOKEN}"
+  request["Notion-Version"] = NOTION_VERSION
 
   request.body = JSON.dump(body)
   response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
     http.request(request)
   end
 
-  results = JSON.parse(response.body)['results']
-  url = results.sample['url'].gsub('https://', 'notion://')
+  results = JSON.parse(response.body)["results"]
+  url = results.sample["url"].gsub("https://", "notion://")
 
   `open #{url}`
 end

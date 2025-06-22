@@ -1,25 +1,25 @@
 # frozen_string_literal: true
 
-require 'json'
-require 'net/http'
-require 'uri'
+require "json"
+require "net/http"
+require "uri"
 
-NOTION_VERSION = '2022-06-28'
-NOTION_TOKEN = 'YOUR_NOTION_TOKEN'
-DATABASE_ID = 'YOUR_DATABASE_ID'
+NOTION_VERSION = "2022-06-28"
+NOTION_TOKEN = "YOUR_NOTION_TOKEN"
+DATABASE_ID = "YOUR_DATABASE_ID"
 
 uri = URI.parse("https://api.notion.com/v1/databases/#{DATABASE_ID}/query")
 request = Net::HTTP::Post.new(uri)
-request['Authorization'] = "Bearer #{NOTION_TOKEN}"
-request['Notion-Version'] = NOTION_VERSION
-request['accept'] = 'application/json'
-request['content-type'] = 'application/json'
+request["Authorization"] = "Bearer #{NOTION_TOKEN}"
+request["Notion-Version"] = NOTION_VERSION
+request["accept"] = "application/json"
+request["content-type"] = "application/json"
 
 body = {
   filter: {
-    property: 'tag',
+    property: "tag",
     relation: {
-      contains: 'your_tag'
+      contains: "your_tag"
     }
   }
 }
