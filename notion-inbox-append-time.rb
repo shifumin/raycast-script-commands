@@ -27,7 +27,7 @@ BLOCK_ID = "YOUR_BLOCK_ID"
 # @param [String] text テキスト
 # @return [String] 現在時刻とテキストを結合したフォーマット済文字列
 # @example
-#   formatted_text("タスク") #=> "2023-04-01 15:30 タスク"
+#   formatted_text("テキスト") #=> "2023-04-01 15:30 テキスト"
 def formatted_text(text)
   current_time = Time.now.strftime("%Y-%m-%d %H:%M")
   "#{current_time} #{text}".dup.force_encoding("UTF-8") # rubocop:disable Style/RedundantInterpolationUnfreeze

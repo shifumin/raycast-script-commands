@@ -24,6 +24,7 @@ if [[ $url =~ $regex ]]; then
     amazon_url="https://www.amazon.co.jp/dp/$product_id"
     echo "Opening $amazon_url"
     osascript -e "tell application \"Google Chrome\" to tell front window to set URL of active tab to \"$amazon_url\""
+    echo $amazon_url | pbcopy
 else
     echo "No Amazon product ID found in URL: $url"
 fi

@@ -24,14 +24,16 @@ NOTION_VERSION = "2022-06-28"
 NOTION_TOKEN = "YOUR_NOTION_TOKEN"
 DATABASE_ID = "YOUR_DATABASE_ID"
 
-def send_notion_db(title)
-  uri = URI.parse("https://api.notion.com/v1/pages")
+def build_request(uri)
   request = Net::HTTP::Post.new(uri)
   request.content_type = "application/json"
   request["Authorization"] = "Bearer #{NOTION_TOKEN}"
   request["Notion-Version"] = NOTION_VERSION
+  request
+end
 
-  obj = {
+def body(title)
+  {
     parent: {
       type: "database_id",
       database_id: DATABASE_ID
@@ -49,8 +51,12 @@ def send_notion_db(title)
       }
     }
   }
+end
 
-  request.body = JSON.dump(obj)
+def send_notion_db(title)
+  uri = URI.parse("https://api.notion.com/v1/pages")
+  request = build_request(uri)
+  request.body = JSON.dump(body(title))
   Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
     http.request(request)
   end

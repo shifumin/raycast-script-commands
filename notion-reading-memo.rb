@@ -21,47 +21,45 @@ require "net/http"
 require "uri"
 
 NOTION_VERSION = "2022-06-28"
-NOTION_TOKEN = "YOUR NOTION TOKEN"
-DATABASE_ID = "YOUR NOTION DATABESE ID" # 読書引用メモを記録するデータベースのID
+NOTION_TOKEN = "YOUR_NOTION_TOKEN"
+DATABASE_ID = "YOUR_DATABASE_ID" # 読書引用メモを記録するデータベースのID
 BOOK_TITLE = "BOOK TITLE"
 AUTHOR = "AUTHOR NAME"
 
-def send_notion_db(content)
-  uri = URI.parse("https://api.notion.com/v1/pages")
+def build_request(uri)
   request = Net::HTTP::Post.new(uri)
   request.content_type = "application/json"
   request["Authorization"] = "Bearer #{NOTION_TOKEN}"
   request["Notion-Version"] = NOTION_VERSION
+  request
+end
 
-  obj = {
+def properties(content)
+  {
+    "📙  Book Title": { select: { name: BOOK_TITLE } },
+    "✍🏼  Author": { select: { name: AUTHOR } },
+    "📝  Highlight": {
+      title: [
+        { text: { content: content.dup.force_encoding("UTF-8") } }
+      ]
+    }
+  }
+end
+
+def body(content)
+  {
     parent: {
       type: "database_id",
       database_id: DATABASE_ID
     },
-    properties: {
-      "📙  Book Title": {
-        select: {
-          name: BOOK_TITLE
-        }
-      },
-      "✍🏼  Author": {
-        select: {
-          name: AUTHOR
-        }
-      },
-      "📝  Highlight": {
-        title: [
-          {
-            text: {
-              content: content.dup.force_encoding("UTF-8")
-            }
-          }
-        ]
-      }
-    }
+    properties: properties(content)
   }
+end
 
-  request.body = JSON.dump(obj)
+def send_notion_db(content)
+  uri = URI.parse("https://api.notion.com/v1/pages")
+  request = build_request(uri)
+  request.body = JSON.dump(body(content))
   Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
     http.request(request)
   end

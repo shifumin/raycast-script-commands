@@ -41,20 +41,27 @@ def body
   }
 end
 
-def open_notion_random_db_page
-  uri = URI.parse(URI_STR)
+def build_request(uri)
   request = Net::HTTP::Post.new(uri)
   request.content_type = "application/json"
   request["Authorization"] = "Bearer #{NOTION_TOKEN}"
   request["Notion-Version"] = NOTION_VERSION
+  request
+end
 
+def fetch_results
+  uri = URI.parse(URI_STR)
+  request = build_request(uri)
   request.body = JSON.dump(body)
   response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
     http.request(request)
   end
 
-  results = JSON.parse(response.body)["results"]
-  url = results.sample["url"].gsub("https://", "notion://")
+  JSON.parse(response.body)["results"]
+end
+
+def open_notion_random_db_page
+  url = fetch_results.sample["url"].gsub("https://", "notion://")
 
   `open #{url}`
 end
