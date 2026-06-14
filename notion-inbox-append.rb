@@ -30,15 +30,17 @@ BLOCK_ID = "YOUR_BLOCK_ID"
 def object(text)
   {
     children: [
-      object: "block",
-      type: "bulleted_list_item",
-      bulleted_list_item: {
-        rich_text: [{
-          type: "text",
-          text: {
-            content: text.dup.force_encoding("UTF-8")
-          }
-        }]
+      {
+        object: "block",
+        type: "bulleted_list_item",
+        bulleted_list_item: {
+          rich_text: [{
+            type: "text",
+            text: {
+              content: text.dup.force_encoding("UTF-8")
+            }
+          }]
+        }
       }
     ]
   }

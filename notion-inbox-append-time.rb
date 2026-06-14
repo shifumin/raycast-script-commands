@@ -39,15 +39,17 @@ end
 def object(text)
   {
     children: [
-      object: "block",
-      type: "bulleted_list_item",
-      bulleted_list_item: {
-        rich_text: [{
-          type: "text",
-          text: {
-            content: formatted_text(text)
-          }
-        }]
+      {
+        object: "block",
+        type: "bulleted_list_item",
+        bulleted_list_item: {
+          rich_text: [{
+            type: "text",
+            text: {
+              content: formatted_text(text)
+            }
+          }]
+        }
       }
     ]
   }

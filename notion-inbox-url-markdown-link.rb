@@ -34,19 +34,21 @@ end
 def object
   {
     children: [
-      object: "block",
-      type: "bulleted_list_item",
-      bulleted_list_item: {
-        rich_text: [{
-          type: "text",
-          text: {
-            content: name.dup.strip.force_encoding("UTF-8"),
-            link: {
-              type: "url",
-              url: url
+      {
+        object: "block",
+        type: "bulleted_list_item",
+        bulleted_list_item: {
+          rich_text: [{
+            type: "text",
+            text: {
+              content: name.dup.strip.force_encoding("UTF-8"),
+              link: {
+                type: "url",
+                url: url
+              }
             }
-          }
-        }]
+          }]
+        }
       }
     ]
   }
