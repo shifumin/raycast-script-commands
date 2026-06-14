@@ -58,9 +58,10 @@ GEM
     tsort (0.2.0)
     unicode-display_width (3.2.0)
       unicode-emoji (~> 4.1)
-    unicode-emoji (4.1.0)
+    unicode-emoji (4.2.0)
 
 PLATFORMS
+  arm64-darwin-23
   arm64-darwin-24
 
 DEPENDENCIES
@@ -69,7 +70,7 @@ DEPENDENCIES
   rubocop-performance
 
 RUBY VERSION
-   ruby 3.4.7p58
+   ruby 4.0.5p0
 
 BUNDLED WITH
    2.6.9

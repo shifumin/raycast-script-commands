@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-ruby File.read(".ruby-version").strip
+ruby ">= 4.0"
 
 gem "debug", ">= 1.0.0"
 gem "rubocop", require: false
